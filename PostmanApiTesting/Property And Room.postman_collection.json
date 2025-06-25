@@ -1,0 +1,457 @@
+{
+	"info": {
+		"_postman_id": "a1b2b90d-a67b-41f9-b952-1c9c20538cae",
+		"name": "Property And Room",
+		"description": "# StayEase Property API Documentation\n\n## Overview\n\nThe Property Service in the StayEase platform allows authenticated users (typically admins or hosts) to manage properties and their rooms. It supports CRUD operations for properties and rooms, and handles image uploads with pre-signed S3 URLs.\n\nBase URL: `https://06bje10q2d.execute-api.us-east-1.amazonaws.com`\n\nAuthentication: All routes require a valid Bearer JWT token in the `Authorization` header.\n\n---\n\n## Endpoints\n\n### 1. Create Property\n\n* **URL**: `POST /api/properties`\n* **Description**: Creates a new property.\n* **Request Headers**: `Authorization: Bearer <token>`\n* **Body** (JSON):\n\n```json\n{\n  \"id\": \"P01\",\n  \"name\": \"StayEase\",\n  \"location\": \"Goa\",\n  \"description\": \"Beachside hotel\"\n}\n```\n\n* **Success Response**:\n\n  * Code: `201 Created`\n  * Body: `{ \"message\": \"Property created successfully\" }`\n\n### 2. Get Property by ID\n\n* **URL**: `GET /api/properties/{property_id}`\n* **Description**: Fetch a single property by ID.\n* **Success Response**:\n\n  * Code: `200 OK`\n  * Body: Property object\n\n### 3. Update Property\n\n* **URL**: `PUT /api/properties/{property_id}`\n* **Description**: Update property details.\n* **Request Headers**: `Authorization`\n* **Body**:\n\n```json\n{\n  \"name\": \"StayEase Deluxe\",\n  \"location\": \"Goa\",\n  \"description\": \"Upgraded amenities\"\n}\n```\n\n* **Success Response**: `200 OK`\n\n### 4. Delete Property\n\n* **URL**: `DELETE /api/properties/{property_id}`\n* **Description**: Deletes a property.\n* **Request Headers**: `Authorization`\n* **Success Response**: `200 OK`\n\n---\n\n## Room Endpoints\n\n### 5. Create Room under Property\n\n* **URL**: `POST /api/properties/{property_id}/rooms`\n* **Description**: Adds a room to a property.\n* **Body**:\n\n```json\n{\n  \"room_type\": \"Deluxe\",\n  \"price_per_night\": 300,\n  \"available\": true,\n  \"max_guests\": 4\n}\n```\n\n* **Response**: `201 Created`\n\n### 6. List Rooms for a Property\n\n* **URL**: `GET /api/properties/{property_id}/rooms`\n* **Response**: Array of room objects\n\n### 7. Get Room by ID\n\n* **URL**: `GET /api/properties/{property_id}/rooms/{room_id}`\n* **Response**: Room object\n\n### 8. Update Room\n\n* **URL**: `PUT /api/properties/{property_id}/rooms/{room_id}`\n* **Body**:\n\n```json\n{\n  \"room_type\": \"Executive Suite\",\n  \"price_per_night\": 350,\n  \"available\": false,\n  \"max_guests\": 3\n}\n```\n\n* **Response**: `200 OK`\n\n### 9. Delete Room\n\n* **URL**: `DELETE /api/properties/{property_id}/rooms/{room_id}`\n* **Response**: `200 OK`\n\n---\n\n## Image Upload for Rooms\n\n### 10. Generate Upload URL\n\n* **URL**: `POST /api/properties/{property_id}/rooms/{room_id}/image-url`\n* **Body**:\n\n```json\n{\n  \"filename\": \"room1.jpg\"\n}\n```\n\n* **Response**:\n\n```json\n{\n  \"upload_url\": \"<signed_s3_url>\",\n  \"public_url\": \"https://...\"\n}\n```\n\n\n###  Upload using Postman\n\n\n\n### 11. Upload Image on that Upload URL\n\n\n1. Open a new **`PUT`** request tab in Postman.\n2. Paste the entire `upload_url` you received in the URL field.\n3. Go to the **Body** tab.\n4. Choose **binary**.\n5. Click \"Select File\" and choose your `.jpg` or `.png` image.\n6. In **Headers**, add:\n\n   ```\n   Content-Type: image/jpeg\n   ```\n7. Click **Send**.\n\nIf successful, S3 will return a `200 OK` response and the image will be publicly accessible at the `public_url` returned from prevoius api call to get signed url\n\n```bash\n\n {\n  \"upload_url\": \"<signed_s3_url>\",\n  \"public_url\": \"https://...\"\n}\n```\n\n* **Response**: `200 OK`\n\n---\n\n## Examples\n\n### Create Property\n\n```bash\ncurl -X POST $BASE_URL/api/properties \\\n  -H \"Authorization: Bearer $TOKEN\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n        \"id\": \"P01\",\n        \"name\": \"StayEase\",\n        \"location\": \"Goa\",\n        \"description\": \"Beachside hotel\"\n      }'\n```\n\n### Get All Rooms in Property\n\n```bash\ncurl $BASE_URL/api/properties/P01/rooms\n```\n\n---\n\n## Glossary\n\n* `property_id`: Unique identifier for a property (e.g., P01)\n* `room_id`: Room ID like R01 (usually auto-incremented or UUID)\n* `available`: Boolean indicating if room is bookable\n* `max_guests`: Maximum number of guests supported\n\n---\n\n",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32156992",
+		"_collection_link": "https://www.postman.com/speeding-eclipse-170640/workspace/stayease/collection/32156992-a1b2b90d-a67b-41f9-b952-1c9c20538cae?action=share&source=collection_link&creator=32156992"
+	},
+	"item": [
+		{
+			"name": "Property",
+			"item": [
+				{
+					"name": "Create Property",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 201) {",
+									"    const requestBody = pm.request.body ? JSON.parse(pm.request.body.raw) : {};",
+									"    const propertyId = requestBody.id || null;",
+									"",
+									"    if (propertyId) {",
+									"        pm.environment.set(\"prop_id\", propertyId);",
+									"    }",
+									"}",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": \"PSG92\",\n  \"name\": \"Hotel Singapore 92\",\n  \"location\": \"Singapore\",\n  \"description\": \"5 star Luxury hotel\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/properties",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"properties"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Property by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/api/properties/{{prop_id}}",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"properties",
+								"{{prop_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Property",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Hotel Singapore Update {{prop_id}}\",\n  \"location\": \"Singapore\",\n  \"description\": \"Upgraded amenities\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/properties/{{prop_id}}",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"properties",
+								"{{prop_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Property",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/api/properties/{{prop_id}}",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"properties",
+								"{{prop_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Room",
+			"item": [
+				{
+					"name": "Create Room under Property",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 201 || pm.response.code === 200) {",
+									"    const jsonData = pm.response.json();",
+									"    const roomId = jsonData.room_id || jsonData.id;",
+									"",
+									"    if (roomId) {",
+									"        pm.environment.set(\"room_id\", roomId);",
+									"        console.log(\"Saved room_id:\", roomId);",
+									"    } else {",
+									"        console.log(\"Room ID not found in response.\");",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"room_type\": \"Deluxe\",\n  \"price_per_night\": 300,\n  \"available\": true,\n  \"max_guests\": 4\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/properties/{{prop_id}}/rooms",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"properties",
+								"{{prop_id}}",
+								"rooms"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Rooms for a Property",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/api/properties/{{prop_id}}/rooms",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"properties",
+								"{{prop_id}}",
+								"rooms"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Room by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/api/properties/{{prop_id}}/rooms/{{room_id}}",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"properties",
+								"{{prop_id}}",
+								"rooms",
+								"{{room_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Room",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"room_type\": \"Executive Suite\",\n  \"price_per_night\": 350,\n  \"available\": false,\n  \"max_guests\": 3\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/properties/{{prop_id}}/rooms/{{room_id}}",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"properties",
+								"{{prop_id}}",
+								"rooms",
+								"{{room_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Room",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/api/properties/{{prop_id}}/rooms/{{room_id}}",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"properties",
+								"{{prop_id}}",
+								"rooms",
+								"{{room_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Generate Upload URL",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 201 || pm.response.code === 200) {",
+									"    const jsonData = pm.response.json();",
+									"    const upload_url = jsonData.upload_url;",
+									"",
+									"    if (upload_url) {",
+									"        pm.environment.set(\"upload_url\", upload_url);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"filename\": \"{{image_name}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/properties/{{prop_id}}/rooms/{{room_id}}/image-url",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"properties",
+								"{{prop_id}}",
+								"rooms",
+								"{{room_id}}",
+								"image-url"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload Image on that URL",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "image/jpeg",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "file",
+							"file": {
+								"src": "postman-cloud:///1f050975-818c-4ef0-9451-0d1dc54e4555"
+							}
+						},
+						"url": {
+							"raw": "{{upload_url}}",
+							"host": [
+								"{{upload_url}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

@@ -1,0 +1,56 @@
+{
+	"info": {
+		"_postman_id": "b1b59506-a6aa-4b5a-9c57-56c688bb1b1d",
+		"name": "User",
+		"description": "UserService:\n\n/Login:\n\nGetting BaseURL Email And Password From Production Env\n\nverify credentails with Cognito and if authenticates then return the token as other routes are JWT Authorized  \nFirst Set the Enviroment To Production, this will set the Enviroment\n\nAfter Sending the Post request, the post scripts run and will store the token in env so that it wont be passed again in every req by hardcoding\n\nTo create an account:  \n[https://us-east-1tztbfdteg.auth.us-east-1.amazoncognito.com/login?client_id=2h3sunkm796h8e0ek6gqkblh9i&amp;response_type=code&amp;scope=email+openid+phone&amp;redirect_uri=https://d84l1y8p4kdic.cloudfront.net](https://us-east-1tztbfdteg.auth.us-east-1.amazoncognito.com/login?client_id=2h3sunkm796h8e0ek6gqkblh9i&response_type=code&scope=email+openid+phone&redirect_uri=https://d84l1y8p4kdic.cloudfront.net)\n\nGo to this and create and account\n\nAlso since in sandbox aws see doesn’t allow sending mails to anyone who is not verified so go to\n\n[https://us-east-1.console.aws.amazon.com/ses/home?region=us-east-1#/identities](https://us-east-1.console.aws.amazon.com/ses/home?region=us-east-1#/identities)[](https://us-east-1.console.aws.amazon.com/ses/home?region=us-east-1#/homepage)then in left sidebar **Configuration: Identities**\n\nThen create identiy for the email which you made an account otherwise you will see error in creating reservations",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32156992",
+		"_collection_link": "https://www.postman.com/speeding-eclipse-170640/workspace/stayease/collection/32156992-b1b59506-a6aa-4b5a-9c57-56c688bb1b1d?action=share&source=collection_link&creator=32156992"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const responseJson = pm.response.json();",
+							"var bodyToken = responseJson.access_token;",
+							"if (bodyToken !== undefined) {",
+							"    pm.environment.set(\"token\", bodyToken)",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"{{email}}\",\n    \"password\": \"{{password}}\"\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/api/users/login",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,170 @@
+{
+	"info": {
+		"_postman_id": "ac8b3795-5d75-4025-b8fd-ab04c75b5dc0",
+		"name": "Reservation",
+		"description": "# StayEase Reservation Service API Documentation\n\n## Overview\n\nThe StayEase Reservation Service API enables users to create, fetch, modify, and cancel reservations for hotel properties and rooms. It supports interactions via HTTP and uses AWS Cognito JWT-based authentication. This API is built for scalability using AWS Lambda and DynamoDB, and supports integration with email notifications via AWS SES.\n\n### Key Features\n\n* Reserve a room for a specific property and date range\n* Check existing reservations\n* Modify booking details\n* Cancel a reservation\n* JWT-based authorization\n* DynamoDB-powered scalability\n\n---\n\n## Authentication\n\nAll endpoints require a valid Bearer token in the `Authorization` header obtained from the User Service login.\n\n```http\nAuthorization: Bearer <JWT>\n```\n\n---\n\n## Endpoints\n\n### 1. Create Reservation\n\n**POST** `/api/reservations`\n\nCreates a new reservation if the room is available.\n\n#### Request Body\n\n```json\n{\n  \"property_id\": \"P01\",\n  \"room_id\": \"R01\",\n  \"check_in\": \"2025-07-01\",\n  \"check_out\": \"2025-07-05\",\n  \"user_email\": \"user@example.com\"\n}\n```\n\n#### Response (Success)\n\n```json\n{\n  \"message\": \"Reservation created\",\n  \"reservation_id\": \"uuid\"\n}\n```\n\n#### Response (Errors)\n\n* `409` Room already booked\n* `400` Missing fields\n* `500` Internal server error\n\n---\n\n### 2. Get Reservation\n\n**GET** `/api/reservations/{id}`\n\nFetches reservation details by `reservation_id`.\n\n#### Response (Success)\n\n```json\n{\n  \"reservation_id\": \"uuid\",\n  \"room_id\": \"R01\",\n  \"check_in\": \"2025-07-01\",\n  \"check_out\": \"2025-07-05\",\n  \"status\": \"confirmed\"\n}\n```\n\n#### Response (Errors)\n\n* `404` Reservation not found\n* `403` Unauthorized\n\n---\n\n### 3. Modify Reservation\n\n**PATCH** `/api/modifications/{id}`\n\nAllows users to change their check-in, check-out, or room ID.\n\n#### Request Body\n\n```json\n{\n  \"check_in\": \"2025-07-10\",\n  \"check_out\": \"2025-07-12\"\n}\n```\n\n#### Response (Success)\n\n```json\n{\n  \"message\": \"Reservation modified\",\n  \"reservation_id\": \"uuid\"\n}\n```\n\n#### Response (Errors)\n\n* `409` Conflict with existing booking\n* `403` Not user's reservation\n* `404` Reservation not found\n\n---\n\n### 4. Cancel Reservation\n\n**POST** `/api/cancellations`\n\nCancels a reservation by setting its status to `cancelled`.\n\n#### Request Body\n\n```json\n{\n  \"reservation_id\": \"uuid\",\n  \"user_email\": \"user@example.com\"\n}\n```\n\n#### Response (Success)\n\n```json\n{\n  \"message\": \"Reservation cancelled\"\n}\n```\n\n#### Response (Errors)\n\n* `403` Unauthorized\n* `404` Reservation not found\n\n---\n\n## Tutorials\n\n1. **Login and fetch JWT:**\n\n   * Use `/api/users/login` with your email and password\n   * Copy the `access_token` from the response\n\n2. **Create a reservation:**\n\n   * Send a `POST` to `/api/reservations` with token and payload\n\n3. **Get reservation details:**\n\n   * Send a `GET` to `/api/reservations/{id}`\n\n4. **Modify or cancel the reservation:**\n\n   * Use `PATCH` or `POST` to `/api/modifications/{id}` or `/api/cancellations`\n\n---\n\n## Examples\n\n### Request Example\n\n```bash\ncurl -X POST https://.../api/reservations \\\n  -H \"Authorization: Bearer <token>\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"property_id\": \"P01\",\n    \"room_id\": \"R01\",\n    \"check_in\": \"2025-07-01\",\n    \"check_out\": \"2025-07-05\",\n    \"user_email\": \"test@example.com\"\n  }'\n```\n\n---\n\n## Glossary\n\n* **JWT (JSON Web Token):** A secure token used for verifying identity.\n* **DynamoDB:** AWS's managed NoSQL database.\n* **SES (Simple Email Service):** AWS's email service used for sending confirmation emails.\n* **reservation\\_id:** Unique identifier for each reservation (UUID).\n\n",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32156992",
+		"_collection_link": "https://www.postman.com/speeding-eclipse-170640/workspace/stayease/collection/32156992-ac8b3795-5d75-4025-b8fd-ab04c75b5dc0?action=share&source=collection_link&creator=32156992"
+	},
+	"item": [
+		{
+			"name": "Create Reservation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const responseJson = pm.response.json();",
+							"var reservation_id = responseJson.reservation_id;",
+							"if (reservation_id) {",
+							"    pm.environment.set(\"reservation_id\", reservation_id)",
+							"}",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"property_id\": \"{{prop_id}}\",\n    \"room_id\": \"{{room_id}}\",\n    \"check_in\": \"2025-08-06\",\n    \"check_out\": \"2025-08-07\",\n    \"user_email\": \"{{email}}\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/api/reservations",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"api",
+						"reservations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Reservation",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/api/reservations/{{reservation_id}}",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"api",
+						"reservations",
+						"{{reservation_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Modify Reservation",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"check_in\": \"2025-08-07\",\n    \"check_out\": \"2025-08-08\"\n}\n\n// Modifying Booking if room is already booked for that date\n// {\n//     \"check_in\": \"2025-08-05\",\n//     \"check_out\": \"2025-08-06\"\n// }\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/api/modifications/{{reservation_id}}",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"api",
+						"modifications",
+						"{{reservation_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cancel Reservation",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"reservation_id\": \"{{reservation_id}}\",\n  \"user_email\": \"{{email}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/api/cancellations",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"api",
+						"cancellations"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
