@@ -1,0 +1,479 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "stayEaseGateway",
+    "version" : "2025-06-23 19:16:12UTC"
+  },
+  "servers" : [ {
+    "url" : "https://06bje10q2d.execute-api.us-east-1.amazonaws.com/{basePath}",
+    "variables" : {
+      "basePath" : {
+        "default" : ""
+      }
+    }
+  } ],
+  "paths" : {
+    "/api/properties/{id}" : {
+      "get" : {
+        "responses" : {
+          "default" : {
+            "description" : "Default response for GET /api/properties/{id}"
+          }
+        },
+        "security" : [ {
+          "CognitoAuth" : [ ]
+        } ],
+        "x-amazon-apigateway-integration" : {
+          "payloadFormatVersion" : "2.0",
+          "type" : "aws_proxy",
+          "httpMethod" : "POST",
+          "uri" : "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:127669644914:function:propertyService/invocations",
+          "connectionType" : "INTERNET"
+        }
+      },
+      "put" : {
+        "responses" : {
+          "default" : {
+            "description" : "Default response for PUT /api/properties/{id}"
+          }
+        },
+        "security" : [ {
+          "CognitoAuth" : [ ]
+        } ],
+        "x-amazon-apigateway-integration" : {
+          "payloadFormatVersion" : "2.0",
+          "type" : "aws_proxy",
+          "httpMethod" : "POST",
+          "uri" : "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:127669644914:function:propertyService/invocations",
+          "connectionType" : "INTERNET"
+        }
+      },
+      "delete" : {
+        "responses" : {
+          "default" : {
+            "description" : "Default response for DELETE /api/properties/{id}"
+          }
+        },
+        "security" : [ {
+          "CognitoAuth" : [ ]
+        } ],
+        "x-amazon-apigateway-integration" : {
+          "payloadFormatVersion" : "2.0",
+          "type" : "aws_proxy",
+          "httpMethod" : "POST",
+          "uri" : "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:127669644914:function:propertyService/invocations",
+          "connectionType" : "INTERNET"
+        }
+      },
+      "parameters" : [ {
+        "name" : "id",
+        "in" : "path",
+        "description" : "Generated path parameter for id",
+        "required" : true,
+        "schema" : {
+          "type" : "string"
+        }
+      } ]
+    },
+    "/api/properties/{property_id}/rooms/{id}" : {
+      "get" : {
+        "responses" : {
+          "default" : {
+            "description" : "Default response for GET /api/properties/{property_id}/rooms/{id}"
+          }
+        },
+        "x-amazon-apigateway-integration" : {
+          "payloadFormatVersion" : "2.0",
+          "type" : "aws_proxy",
+          "httpMethod" : "POST",
+          "uri" : "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:127669644914:function:propertyService/invocations",
+          "connectionType" : "INTERNET"
+        }
+      },
+      "put" : {
+        "responses" : {
+          "default" : {
+            "description" : "Default response for PUT /api/properties/{property_id}/rooms/{id}"
+          }
+        },
+        "security" : [ {
+          "CognitoAuth" : [ ]
+        } ],
+        "x-amazon-apigateway-integration" : {
+          "payloadFormatVersion" : "2.0",
+          "type" : "aws_proxy",
+          "httpMethod" : "POST",
+          "uri" : "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:127669644914:function:propertyService/invocations",
+          "connectionType" : "INTERNET"
+        }
+      },
+      "delete" : {
+        "responses" : {
+          "default" : {
+            "description" : "Default response for DELETE /api/properties/{property_id}/rooms/{id}"
+          }
+        },
+        "security" : [ {
+          "CognitoAuth" : [ ]
+        } ],
+        "x-amazon-apigateway-integration" : {
+          "payloadFormatVersion" : "2.0",
+          "type" : "aws_proxy",
+          "httpMethod" : "POST",
+          "uri" : "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:127669644914:function:propertyService/invocations",
+          "connectionType" : "INTERNET"
+        }
+      },
+      "parameters" : [ {
+        "name" : "property_id",
+        "in" : "path",
+        "description" : "Generated path parameter for property_id",
+        "required" : true,
+        "schema" : {
+          "type" : "string"
+        }
+      }, {
+        "name" : "id",
+        "in" : "path",
+        "description" : "Generated path parameter for id",
+        "required" : true,
+        "schema" : {
+          "type" : "string"
+        }
+      } ]
+    },
+    "/api/properties" : {
+      "get" : {
+        "responses" : {
+          "default" : {
+            "description" : "Default response for GET /api/properties"
+          }
+        },
+        "security" : [ {
+          "CognitoAuth" : [ ]
+        } ],
+        "x-amazon-apigateway-integration" : {
+          "payloadFormatVersion" : "2.0",
+          "type" : "aws_proxy",
+          "httpMethod" : "POST",
+          "uri" : "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:127669644914:function:propertyService/invocations",
+          "connectionType" : "INTERNET"
+        }
+      },
+      "post" : {
+        "responses" : {
+          "default" : {
+            "description" : "Default response for POST /api/properties"
+          }
+        },
+        "security" : [ {
+          "CognitoAuth" : [ ]
+        } ],
+        "x-amazon-apigateway-integration" : {
+          "payloadFormatVersion" : "2.0",
+          "type" : "aws_proxy",
+          "httpMethod" : "POST",
+          "uri" : "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:127669644914:function:propertyService/invocations",
+          "connectionType" : "INTERNET"
+        }
+      }
+    },
+    "/api/properties/{property_id}/rooms" : {
+      "get" : {
+        "responses" : {
+          "default" : {
+            "description" : "Default response for GET /api/properties/{property_id}/rooms"
+          }
+        },
+        "security" : [ {
+          "CognitoAuth" : [ ]
+        } ],
+        "x-amazon-apigateway-integration" : {
+          "payloadFormatVersion" : "2.0",
+          "type" : "aws_proxy",
+          "httpMethod" : "POST",
+          "uri" : "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:127669644914:function:propertyService/invocations",
+          "connectionType" : "INTERNET"
+        }
+      },
+      "post" : {
+        "responses" : {
+          "default" : {
+            "description" : "Default response for POST /api/properties/{property_id}/rooms"
+          }
+        },
+        "security" : [ {
+          "CognitoAuth" : [ ]
+        } ],
+        "x-amazon-apigateway-integration" : {
+          "payloadFormatVersion" : "2.0",
+          "type" : "aws_proxy",
+          "httpMethod" : "POST",
+          "uri" : "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:127669644914:function:propertyService/invocations",
+          "connectionType" : "INTERNET"
+        }
+      },
+      "parameters" : [ {
+        "name" : "property_id",
+        "in" : "path",
+        "description" : "Generated path parameter for property_id",
+        "required" : true,
+        "schema" : {
+          "type" : "string"
+        }
+      } ]
+    },
+    "/api/reservations/{id}" : {
+      "get" : {
+        "responses" : {
+          "default" : {
+            "description" : "Default response for GET /api/reservations/{id}"
+          }
+        },
+        "security" : [ {
+          "CognitoAuth" : [ ]
+        } ],
+        "x-amazon-apigateway-integration" : {
+          "payloadFormatVersion" : "2.0",
+          "type" : "aws_proxy",
+          "httpMethod" : "POST",
+          "uri" : "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:127669644914:function:ReservationService/invocations",
+          "connectionType" : "INTERNET"
+        }
+      },
+      "put" : {
+        "responses" : {
+          "default" : {
+            "description" : "Default response for PUT /api/reservations/{id}"
+          }
+        },
+        "security" : [ {
+          "CognitoAuth" : [ ]
+        } ],
+        "x-amazon-apigateway-integration" : {
+          "payloadFormatVersion" : "2.0",
+          "type" : "aws_proxy",
+          "httpMethod" : "POST",
+          "uri" : "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:127669644914:function:ModificationService/invocations",
+          "connectionType" : "INTERNET"
+        }
+      },
+      "parameters" : [ {
+        "name" : "id",
+        "in" : "path",
+        "description" : "Generated path parameter for id",
+        "required" : true,
+        "schema" : {
+          "type" : "string"
+        }
+      } ]
+    },
+    "/api/modifications/{reservation_id}" : {
+      "patch" : {
+        "responses" : {
+          "default" : {
+            "description" : "Default response for PATCH /api/modifications/{reservation_id}"
+          }
+        },
+        "security" : [ {
+          "CognitoAuth" : [ ]
+        } ],
+        "x-amazon-apigateway-integration" : {
+          "payloadFormatVersion" : "2.0",
+          "type" : "aws_proxy",
+          "httpMethod" : "POST",
+          "uri" : "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:127669644914:function:ModificationService/invocations",
+          "connectionType" : "INTERNET"
+        }
+      },
+      "parameters" : [ {
+        "name" : "reservation_id",
+        "in" : "path",
+        "description" : "Generated path parameter for reservation_id",
+        "required" : true,
+        "schema" : {
+          "type" : "string"
+        }
+      } ]
+    },
+    "/api/cancellations" : {
+      "post" : {
+        "responses" : {
+          "default" : {
+            "description" : "Default response for POST /api/cancellations"
+          }
+        },
+        "security" : [ {
+          "CognitoAuth" : [ ]
+        } ],
+        "x-amazon-apigateway-integration" : {
+          "payloadFormatVersion" : "2.0",
+          "type" : "aws_proxy",
+          "httpMethod" : "POST",
+          "uri" : "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:127669644914:function:CancellationService/invocations",
+          "connectionType" : "INTERNET"
+        }
+      }
+    },
+    "/api/properties/{property_id}/rooms/{id}/image-url" : {
+      "post" : {
+        "responses" : {
+          "default" : {
+            "description" : "Default response for POST /api/properties/{property_id}/rooms/{id}/image-url"
+          }
+        },
+        "security" : [ {
+          "CognitoAuth" : [ ]
+        } ],
+        "x-amazon-apigateway-integration" : {
+          "payloadFormatVersion" : "2.0",
+          "type" : "aws_proxy",
+          "httpMethod" : "POST",
+          "uri" : "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:127669644914:function:propertyService/invocations",
+          "connectionType" : "INTERNET"
+        }
+      },
+      "parameters" : [ {
+        "name" : "property_id",
+        "in" : "path",
+        "description" : "Generated path parameter for property_id",
+        "required" : true,
+        "schema" : {
+          "type" : "string"
+        }
+      }, {
+        "name" : "id",
+        "in" : "path",
+        "description" : "Generated path parameter for id",
+        "required" : true,
+        "schema" : {
+          "type" : "string"
+        }
+      } ]
+    },
+    "/api/reservations" : {
+      "post" : {
+        "responses" : {
+          "default" : {
+            "description" : "Default response for POST /api/reservations"
+          }
+        },
+        "security" : [ {
+          "CognitoAuth" : [ ]
+        } ],
+        "x-amazon-apigateway-integration" : {
+          "payloadFormatVersion" : "2.0",
+          "type" : "aws_proxy",
+          "httpMethod" : "POST",
+          "uri" : "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:127669644914:function:ReservationService/invocations",
+          "connectionType" : "INTERNET"
+        }
+      }
+    },
+    "/api/search" : {
+      "post" : {
+        "responses" : {
+          "default" : {
+            "description" : "Default response for POST /api/search"
+          }
+        },
+        "security" : [ {
+          "CognitoAuth" : [ ]
+        } ],
+        "x-amazon-apigateway-integration" : {
+          "payloadFormatVersion" : "2.0",
+          "type" : "aws_proxy",
+          "httpMethod" : "POST",
+          "uri" : "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:127669644914:function:SearchService/invocations",
+          "connectionType" : "INTERNET"
+        }
+      }
+    },
+    "/api/users/login" : {
+      "post" : {
+        "responses" : {
+          "default" : {
+            "description" : "Default response for POST /api/users/login"
+          }
+        },
+        "x-amazon-apigateway-integration" : {
+          "payloadFormatVersion" : "2.0",
+          "type" : "aws_proxy",
+          "httpMethod" : "POST",
+          "uri" : "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:127669644914:function:UserService/invocations",
+          "connectionType" : "INTERNET"
+        }
+      }
+    },
+    "/api/users/register" : {
+      "post" : {
+        "responses" : {
+          "default" : {
+            "description" : "Default response for POST /api/users/register"
+          }
+        },
+        "x-amazon-apigateway-integration" : {
+          "payloadFormatVersion" : "2.0",
+          "type" : "aws_proxy",
+          "httpMethod" : "POST",
+          "uri" : "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:127669644914:function:UserService/invocations",
+          "connectionType" : "INTERNET",
+          "timeoutInMillis" : 30000
+        }
+      }
+    },
+    "/api/properties/{property_id}/rooms/{id}/image" : {
+      "put" : {
+        "responses" : {
+          "default" : {
+            "description" : "Default response for PUT /api/properties/{property_id}/rooms/{id}/image"
+          }
+        },
+        "security" : [ {
+          "CognitoAuth" : [ ]
+        } ],
+        "x-amazon-apigateway-integration" : {
+          "payloadFormatVersion" : "2.0",
+          "type" : "aws_proxy",
+          "httpMethod" : "POST",
+          "uri" : "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:127669644914:function:propertyService/invocations",
+          "connectionType" : "INTERNET"
+        }
+      },
+      "parameters" : [ {
+        "name" : "property_id",
+        "in" : "path",
+        "description" : "Generated path parameter for property_id",
+        "required" : true,
+        "schema" : {
+          "type" : "string"
+        }
+      }, {
+        "name" : "id",
+        "in" : "path",
+        "description" : "Generated path parameter for id",
+        "required" : true,
+        "schema" : {
+          "type" : "string"
+        }
+      } ]
+    }
+  },
+  "components" : {
+    "securitySchemes" : {
+      "CognitoAuth" : {
+        "type" : "oauth2",
+        "flows" : { },
+        "x-amazon-apigateway-authorizer" : {
+          "identitySource" : "$request.header.Authorization",
+          "jwtConfiguration" : {
+            "audience" : [ "2h3sunkm796h8e0ek6gqkblh9i" ],
+            "issuer" : "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_tzTbFDTeG"
+          },
+          "type" : "jwt"
+        }
+      }
+    }
+  },
+  "x-amazon-apigateway-importexport-version" : "1.0"
+}
